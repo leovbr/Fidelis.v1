@@ -1,1 +1,312 @@
+* {
+  box-sizing: border-box;
+}
 
+body {
+  margin: 0;
+  background: radial-gradient(
+    circle at 50% -10%,
+    #24242d,
+    #0d0d12 35%,
+    #07070a 75%
+  );
+  color: #f5f5f7;
+  font-family: Inter, system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+.app {
+  width: min(920px, calc(100% - 24px));
+  margin: auto;
+  padding: 28px 0 55px;
+}
+
+header,
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand > b {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #444;
+  border-radius: 13px;
+}
+
+.brand strong {
+  display: block;
+  letter-spacing: 4px;
+}
+
+.brand small {
+  display: block;
+  color: #888;
+  font-size: 10px;
+  margin-top: 3px;
+}
+
+.hero {
+  padding: 65px 0 35px;
+}
+
+.eyebrow,
+small {
+  color: #7f7f8a;
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 800;
+}
+
+.hero h1 {
+  font-size: clamp(42px, 8vw, 72px);
+  letter-spacing: -4px;
+  margin: 12px 0;
+}
+
+.hero h1 span {
+  color: #858590;
+}
+
+.hero p:last-child {
+  color: #92929d;
+  max-width: 600px;
+  line-height: 1.7;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tab,
+.ghost,
+#accountBtn {
+  border: 1px solid #292930;
+  background: #101014;
+  color: #aaa;
+  border-radius: 10px;
+  padding: 11px 16px;
+}
+
+.tab {
+  flex: 1;
+}
+
+.tab.active {
+  background: #f5f5f7;
+  color: #08080b;
+}
+
+.card {
+  background: #101014;
+  border: 1px solid #27272f;
+  border-radius: 17px;
+  padding: 18px;
+  margin-bottom: 12px;
+}
+
+.drop {
+  min-height: 285px;
+  border: 1px dashed #3c3c45;
+  border-radius: 13px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.icon {
+  font-size: 48px;
+}
+
+.drop h2 {
+  margin: 8px 0;
+}
+
+.drop p {
+  color: #85858f;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.primary,
+.enhance,
+.download {
+  display: block;
+  border: 0;
+  border-radius: 10px;
+  padding: 13px 18px;
+  background: #f5f5f7;
+  color: #08080b;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.preview {
+  margin-top: 15px;
+  background: #08080b;
+  border: 1px solid #292930;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.preview img,
+.preview video,
+.preview canvas {
+  max-width: 100%;
+  max-height: 650px;
+  display: block;
+  object-fit: contain;
+}
+
+.qualities {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+  margin-top: 15px;
+}
+
+.quality {
+  position: relative;
+  text-align: left;
+  min-height: 130px;
+  background: #0c0c10;
+  color: #eee;
+  border: 1px solid #292930;
+  border-radius: 12px;
+  padding: 14px;
+  cursor: pointer;
+}
+
+.quality.active {
+  border-color: #bbb;
+}
+
+.quality b,
+.quality strong,
+.quality small {
+  display: block;
+}
+
+.quality b {
+  margin-bottom: 17px;
+}
+
+.quality strong {
+  letter-spacing: 0.2px;
+}
+
+.quality small {
+  margin-top: 5px;
+  letter-spacing: 0;
+  color: #777;
+}
+
+.quality em {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 9px;
+  font-style: normal;
+  color: #888;
+}
+
+.enhance {
+  width: 100%;
+  font-size: 15px;
+  margin: 4px 0 12px;
+}
+
+.enhance:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.track {
+  height: 6px;
+  background: #292930;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.track i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: #f5f5f7;
+  transition: 0.2s;
+}
+
+.badge {
+  font-size: 9px;
+  color: #67e8a5;
+  border: 1px solid #30343a;
+  border-radius: 7px;
+  padding: 6px;
+}
+
+.download {
+  width: 100%;
+  margin-top: 12px;
+  background: #19191f;
+  color: #fff;
+  border: 1px solid #292930;
+}
+
+.error {
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #63343a;
+  background: #251014;
+  color: #ff9298;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.hidden {
+  display: none !important;
+}
+
+footer {
+  text-align: center;
+  color: #666671;
+  font-size: 11px;
+  padding-top: 18px;
+}
+
+footer small {
+  display: block;
+  margin-top: 8px;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+@media (max-width: 650px) {
+  .qualities {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-top: 45px;
+  }
+
+  .app {
+    width: min(100% - 18px, 920px);
+  }
+}
