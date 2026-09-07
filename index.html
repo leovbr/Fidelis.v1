@@ -1,1 +1,870 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#07070a"><title>FIDELIS — Enhance. Don't Change.</title><link rel="stylesheet" href="css/style.css"></head><body><main class="app"><header><div class="brand"><b>F</b><div><strong>FIDELIS</strong><small>Enhance. Don't Change.</small></div></div><button id="accountBtn">Login</button></header><section class="hero"><p class="eyebrow">AI MEDIA ENHANCEMENT</p><h1>Enhance your <span>media.</span></h1><p>Improve resolution, sharpness and detail while preserving the original appearance.</p></section><nav class="tabs"><button class="tab active" data-mode="image">Image</button><button class="tab" data-mode="video">Video</button></nav><section class="card"><div id="dropZone" class="drop"><div class="icon" id="uploadIcon">⌁</div><h2 id="uploadTitle">Upload your image</h2><p id="uploadText">JPG, PNG, WEBP<br>Tap to choose or drag & drop</p><label for="fileInput" class="primary">Choose File</label><input id="fileInput" hidden type="file" accept="image/*"></div></section><section id="sourceArea" class="card hidden"><div class="row"><div><small>SOURCE</small><h3 id="sourceName"></h3></div><button id="removeButton" class="ghost">Remove</button></div><div id="sourcePreview" class="preview"></div></section><section class="card"><small>ENHANCEMENT</small><h3>Select quality</h3><div class="qualities"><button class="quality active" data-quality="standard"><b>✦</b><strong>Basic</strong><small>2× AI Enhancement</small><em>FREE</em></button><button class="quality" data-quality="high"><b>✦✦</b><strong>High</strong><small>Enhanced detail</small><em>FREE</em></button><button class="quality" data-quality="ultra"><b>✦✦✦</b><strong>Ultra</strong><small>4× maximum enhancement</small><em>VVIP</em></button></div></section><button id="enhanceButton" class="enhance" disabled>Enhance with AI</button><section id="status" class="card hidden"><div class="row"><span id="statusText">Preparing AI...</span><b id="statusPercent">0%</b></div><div class="track"><i id="progressBar"></i></div></section><div id="errorBox" class="error hidden"></div><section id="resultPanel" class="card hidden"><div class="row"><div><small>RESULT</small><h3>Enhanced media</h3></div><span id="engineBadge" class="badge">FIDELIS AI</span></div><div id="resultPreview" class="preview"></div><button id="downloadButton" class="download">Download Result</button></section><footer><b>FIDELIS</b> · Enhance. Don't Change.<small>Local browser AI when supported. Server features can be connected later.</small></footer></main><script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.29.0/dist/ort.min.js"></script><script src="js/config.js"></script><script src="js/model-manager.js"></script><script src="js/ai-engine.js"></script><script src="js/image-engine.js"></script><script src="js/video-engine.js"></script><script src="js/auth.js"></script><script src="js/app.js"></script></body></html>
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="theme-color" content="#05070c">
+<meta name="color-scheme" content="dark">
+
+<title>FIDELIS — VVIP AI Studio</title>
+
+<!-- ================================
+     CORE STYLE
+================================= -->
+<link rel="stylesheet" href="css/style.css">
+
+</head><body><!-- =====================================================
+     APP BOOT
+====================================================== -->
+<div id="appBoot" class="app-boot">
+    <div class="boot-core">
+        <div class="boot-ring"></div>
+        <div class="boot-ring ring-2"></div>
+
+        <div class="boot-logo">
+            FIDELIS
+        </div>
+
+        <div class="boot-status" id="bootStatus">
+            INITIALIZING SYSTEM
+        </div>
+    </div>
+</div>
+
+
+<!-- =====================================================
+     AUTH / SECURITY LAYER
+====================================================== -->
+<section id="authScreen" class="screen auth-screen">
+
+    <div class="auth-card">
+
+        <div class="brand">
+            <span class="brand-mark">F</span>
+
+            <div>
+                <h1>FIDELIS</h1>
+                <span>VVIP AI STUDIO</span>
+            </div>
+        </div>
+
+        <div class="auth-status" id="authStatus">
+            SECURE ENVIRONMENT
+        </div>
+
+        <div class="auth-content" id="authContent">
+
+            <div class="auth-avatar" id="authAvatar">
+                F
+            </div>
+
+            <h2 id="authTitle">
+                Welcome to Fidelis
+            </h2>
+
+            <p id="authDescription">
+                Your private AI processing environment.
+            </p>
+
+            <button
+                id="authButton"
+                class="primary-btn"
+                type="button">
+                ENTER FIDELIS
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     MAIN APPLICATION
+====================================================== -->
+<main id="app" class="app hidden">
+
+    <!-- =============================
+         TOP BAR
+    ============================== -->
+    <header class="topbar">
+
+        <div class="top-brand">
+            <span class="brand-symbol">F</span>
+
+            <div>
+                <strong>FIDELIS</strong>
+                <small id="tierLabel">
+                    VVIP
+                </small>
+            </div>
+        </div>
+
+
+        <div class="system-state">
+
+            <span
+                id="securityIndicator"
+                class="status-dot secure">
+            </span>
+
+            <span id="securityText">
+                SECURE
+            </span>
+
+        </div>
+
+
+        <button
+            id="profileButton"
+            class="icon-btn"
+            type="button"
+            aria-label="Profile">
+            ◉
+        </button>
+
+    </header>
+
+
+    <!-- =================================================
+         DASHBOARD
+    ================================================== -->
+    <section id="dashboard" class="page active">
+
+        <div class="hero">
+
+            <div class="hero-eyebrow">
+                PRIVATE AI PROCESSING
+            </div>
+
+            <h1>
+                Welcome back,
+                <span id="userName">
+                    Fidelis User
+                </span>
+            </h1>
+
+            <p>
+                Professional image and video processing
+                with protected VVIP infrastructure.
+            </p>
+
+        </div>
+
+
+        <!-- =============================
+             PROCESSING GUARD
+        ============================== -->
+        <section class="guard-card">
+
+            <div class="guard-header">
+
+                <div>
+                    <span class="section-label">
+                        PROCESSING GUARD
+                    </span>
+
+                    <h2>
+                        System Protection
+                    </h2>
+                </div>
+
+                <span
+                    id="guardStatus"
+                    class="guard-status">
+                    ACTIVE
+                </span>
+
+            </div>
+
+
+            <div class="guard-grid">
+
+                <div class="guard-item">
+                    <span>SECURITY</span>
+                    <strong id="securityState">
+                        VERIFIED
+                    </strong>
+                </div>
+
+                <div class="guard-item">
+                    <span>PROCESSING</span>
+                    <strong id="processingState">
+                        READY
+                    </strong>
+                </div>
+
+                <div class="guard-item">
+                    <span>STORAGE</span>
+                    <strong id="storageState">
+                        AVAILABLE
+                    </strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =============================
+             AI PROCESSING
+        ============================== -->
+        <section class="processing-section">
+
+            <div class="section-heading">
+
+                <span>
+                    AI ENGINE
+                </span>
+
+                <h2>
+                    Choose Processing
+                </h2>
+
+            </div>
+
+
+            <div class="engine-grid">
+
+                <!-- IMAGE -->
+                <button
+                    id="imageEngine"
+                    class="engine-card"
+                    type="button">
+
+                    <div class="engine-icon">
+                        ◈
+                    </div>
+
+                    <div class="engine-info">
+                        <span class="engine-type">
+                            IMAGE
+                        </span>
+
+                        <h3>
+                            REAL AI
+                        </h3>
+
+                        <p>
+                            High quality image enhancement
+                            and intelligent processing.
+                        </p>
+                    </div>
+
+                    <span class="engine-arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+                <!-- VIDEO -->
+                <button
+                    id="videoEngine"
+                    class="engine-card"
+                    type="button">
+
+                    <div class="engine-icon">
+                        ◉
+                    </div>
+
+                    <div class="engine-info">
+                        <span class="engine-type">
+                            VIDEO
+                        </span>
+
+                        <h3>
+                            VIDEO AI
+                        </h3>
+
+                        <p>
+                            AI-powered video enhancement
+                            with advanced frame processing.
+                        </p>
+                    </div>
+
+                    <span class="engine-arrow">
+                        →
+                    </span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =============================
+             FPS ENGINE
+        ============================== -->
+        <section
+            id="fpsEngine"
+            class="fps-card">
+
+            <div class="fps-header">
+
+                <div>
+                    <span class="section-label">
+                        FPS ENGINE
+                    </span>
+
+                    <h2>
+                        Frame Processing
+                    </h2>
+                </div>
+
+                <span id="fpsCurrent">
+                    60 FPS
+                </span>
+
+            </div>
+
+
+            <div class="fps-options">
+
+                <button
+                    class="fps-option active"
+                    data-fps="60"
+                    type="button">
+
+                    <strong>
+                        60
+                    </strong>
+
+                    <span>
+                        FPS
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="fps-option"
+                    data-fps="120"
+                    type="button">
+
+                    <strong>
+                        120
+                    </strong>
+
+                    <span>
+                        FPS
+                    </span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+    </section>
+
+
+    <!-- =================================================
+         IMAGE WORKSPACE
+    ================================================== -->
+    <section
+        id="imageWorkspace"
+        class="page workspace hidden">
+
+        <div class="workspace-header">
+
+            <button
+                class="back-btn"
+                data-back="dashboard"
+                type="button">
+                ←
+            </button>
+
+            <div>
+                <span>REAL AI</span>
+                <h2>Image Studio</h2>
+            </div>
+
+        </div>
+
+
+        <div
+            id="imageDropzone"
+            class="dropzone">
+
+            <div class="drop-icon">
+                ◈
+            </div>
+
+            <h3>
+                Select Image
+            </h3>
+
+            <p>
+                Upload an image to begin AI processing.
+            </p>
+
+            <button
+                id="imageUploadButton"
+                class="primary-btn"
+                type="button">
+                SELECT IMAGE
+            </button>
+
+            <input
+                id="imageInput"
+                type="file"
+                accept="image/*"
+                hidden>
+
+        </div>
+
+
+        <div
+            id="imagePreview"
+            class="media-preview hidden">
+
+            <img
+                id="imagePreviewElement"
+                alt="Image Preview">
+
+        </div>
+
+
+        <div
+            id="imageProcessing"
+            class="processing-panel hidden">
+
+            <div class="processing-spinner"></div>
+
+            <span>
+                FIDELIS REAL AI
+            </span>
+
+            <strong id="imageProgress">
+                PROCESSING 0%
+            </strong>
+
+        </div>
+
+
+        <button
+            id="imageProcessButton"
+            class="primary-btn process-btn hidden"
+            type="button">
+
+            PROCESS IMAGE
+
+        </button>
+
+    </section>
+
+
+    <!-- =================================================
+         VIDEO WORKSPACE
+    ================================================== -->
+    <section
+        id="videoWorkspace"
+        class="page workspace hidden">
+
+        <div class="workspace-header">
+
+            <button
+                class="back-btn"
+                data-back="dashboard"
+                type="button">
+                ←
+            </button>
+
+            <div>
+                <span>VIDEO AI</span>
+                <h2>Video Studio</h2>
+            </div>
+
+        </div>
+
+
+        <div
+            id="videoDropzone"
+            class="dropzone">
+
+            <div class="drop-icon">
+                ◉
+            </div>
+
+            <h3>
+                Select Video
+            </h3>
+
+            <p>
+                Upload a video for advanced AI processing.
+            </p>
+
+            <button
+                id="videoUploadButton"
+                class="primary-btn"
+                type="button">
+                SELECT VIDEO
+            </button>
+
+            <input
+                id="videoInput"
+                type="file"
+                accept="video/*"
+                hidden>
+
+        </div>
+
+
+        <div
+            id="videoPreview"
+            class="media-preview hidden">
+
+            <video
+                id="videoPreviewElement"
+                controls
+                playsinline>
+            </video>
+
+        </div>
+
+
+        <!-- FPS -->
+        <div class="video-settings">
+
+            <span>
+                OUTPUT FPS
+            </span>
+
+            <div class="fps-options">
+
+                <button
+                    class="fps-option active"
+                    data-video-fps="60"
+                    type="button">
+                    60 FPS
+                </button>
+
+                <button
+                    class="fps-option"
+                    data-video-fps="120"
+                    type="button">
+                    120 FPS
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="videoProcessing"
+            class="processing-panel hidden">
+
+            <div class="processing-spinner"></div>
+
+            <span>
+                VIDEO AI ENGINE
+            </span>
+
+            <strong id="videoProgress">
+                PROCESSING 0%
+            </strong>
+
+        </div>
+
+
+        <button
+            id="videoProcessButton"
+            class="primary-btn process-btn hidden"
+            type="button">
+
+            PROCESS VIDEO
+
+        </button>
+
+    </section>
+
+
+    <!-- =================================================
+         HISTORY
+    ================================================== -->
+    <section
+        id="historyPage"
+        class="page hidden">
+
+        <div class="page-heading">
+
+            <span>
+                STORAGE
+            </span>
+
+            <h2>
+                Processing History
+            </h2>
+
+        </div>
+
+
+        <div
+            id="historyList"
+            class="history-list">
+
+            <div class="empty-state">
+
+                <div>
+                    ◫
+                </div>
+
+                <h3>
+                    No processing history
+                </h3>
+
+                <p>
+                    Your completed AI jobs will appear here.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         PROFILE
+    ================================================== -->
+    <section
+        id="profilePage"
+        class="page hidden">
+
+        <div class="page-heading">
+
+            <span>
+                ACCOUNT
+            </span>
+
+            <h2>
+                Profile
+            </h2>
+
+        </div>
+
+
+        <div class="profile-card">
+
+            <div
+                id="profileAvatar"
+                class="profile-avatar">
+                F
+            </div>
+
+            <h2 id="profileName">
+                Fidelis User
+            </h2>
+
+            <span
+                id="profileTier"
+                class="tier-badge">
+                VVIP
+            </span>
+
+        </div>
+
+
+        <div class="profile-settings">
+
+            <div class="setting-row">
+
+                <span>
+                    Account Security
+                </span>
+
+                <strong id="profileSecurity">
+                    VERIFIED
+                </strong>
+
+            </div>
+
+            <div class="setting-row">
+
+                <span>
+                    Storage
+                </span>
+
+                <strong id="profileStorage">
+                    READY
+                </strong>
+
+            </div>
+
+            <div class="setting-row">
+
+                <span>
+                    Processing Tier
+                </span>
+
+                <strong id="profileProcessing">
+                    VVIP
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         BOTTOM NAVIGATION
+    ================================================== -->
+    <nav class="bottom-nav">
+
+        <button
+            class="nav-item active"
+            data-page="dashboard"
+            type="button">
+
+            <span>⌂</span>
+            <small>HOME</small>
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            data-page="imageWorkspace"
+            type="button">
+
+            <span>◈</span>
+            <small>IMAGE</small>
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            data-page="videoWorkspace"
+            type="button">
+
+            <span>◉</span>
+            <small>VIDEO</small>
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            data-page="historyPage"
+            type="button">
+
+            <span>◫</span>
+            <small>HISTORY</small>
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            data-page="profilePage"
+            type="button">
+
+            <span>◎</span>
+            <small>PROFILE</small>
+
+        </button>
+
+    </nav>
+
+</main>
+
+
+<!-- =====================================================
+     GLOBAL MODAL
+====================================================== -->
+<div
+    id="globalModal"
+    class="modal hidden">
+
+    <div class="modal-card">
+
+        <button
+            id="modalClose"
+            class="modal-close"
+            type="button">
+            ×
+        </button>
+
+        <div id="modalContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     TOAST
+====================================================== -->
+<div
+    id="toast"
+    class="toast">
+
+    <span id="toastMessage">
+        System ready.
+    </span>
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT MODULES
+====================================================== -->
+
+<!-- Authentication -->
+<script type="module" src="js/Auth.js"></script>
+
+<!-- Tier -->
+<script type="module" src="js/Tier.js"></script>
+
+<!-- Storage -->
+<script type="module" src="js/Storage.js"></script>
+
+<!-- Profile -->
+<script type="module" src="js/Profile.js"></script>
+
+<!-- Security -->
+<script type="module" src="js/Security.js"></script>
+
+<!-- Processing Guard -->
+<script type="module" src="js/ProcessingGuard.js"></script>
+
+<!-- Real AI / Image -->
+<script type="module" src="js/RealAI.js"></script>
+
+<!-- Video AI -->
+<script type="module" src="js/VideoAI.js"></script>
+
+<!-- FPS Engine -->
+<script type="module" src="js/FPSEngine.js"></script>
+
+<!-- Final Fidelis Controller -->
+<script type="module" src="js/Fidelis-next.js"></script>
+
+
+<!-- =====================================================
+     FALLBACK BOOT
+====================================================== -->
+<script>
+    window.addEventListener("DOMContentLoaded", () => {
+
+        const boot = document.getElementById("appBoot");
+
+        setTimeout(() => {
+
+            if (boot) {
+                boot.classList.add("hidden");
+            }
+
+        }, 900);
+
+    });
+</script>
+
+</body>
+  </html>
